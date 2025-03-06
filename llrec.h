@@ -47,6 +47,12 @@ struct Node
  *   Pivot value
  *
  */
+
+// This function is to be used in the llpivot function to make our
+// program easier to implement and so we don't have to keep
+// track of large chunks of code
+void helper(Node* head, Node*& smaller, Node*& larger, Node*& end1, Node*& end2, int pivot);
+
 void llpivot(Node *&head, Node *&smaller, Node *&larger, int pivot);
 
 /**
@@ -77,14 +83,45 @@ Node* llfilter(Node* head, Comp pred);
 // implement the above function now.
 //*****************************************************************************
 
-template <typename Comp>
-Node* llfilter(Node* head, Comp pred)
-{
     //*********************************************
     // Provide your implementation below
     //*********************************************
 
+/* Now lets implement the filter function
+Compares types based on a certain criteria provided in the
+comparator function
+Comparators define the () operator so we will use that in 
+our function to compare value of types unknown
+Run in O(n)
+Return a pointer to a node of the list that Now
+contains a list filtered out by the criteria
+*/
 
+// Still have to provide the typename template before class definition
+template <typename Comp>
+Node* llfilter(Node* head, Comp pred) {
+
+  // First is the base case which again checks if the head
+  // is NULL to signify the end of the list
+  if (head == NULL) {
+    return NULL;
+  }
+
+  // Now our recursive cases
+  Node* temp = head->next;
+
+  // We can use our comparator function here to check the condition
+  // Lets first check if the condition is true for our value at the node
+  // The comparator struct was passed in as pred and () is defined for this
+  if (pred(head->val))  {
+    delete head;  // When the condition is true we delete this node. We have it saved
+    head = NULL;
+    return llfilter(temp, pred);  // now return the rest of the list to recurse on
+  }
+  else  {
+    head->next = llfilter(temp, pred);  // When the condition is false, we keep the node and recurse on the rest
+    return head;        // Return the list as is at the head with the valid value
+  }
 }
 
 #endif

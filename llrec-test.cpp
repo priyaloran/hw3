@@ -85,11 +85,42 @@ int main(int argc, char* argv[])
     cout << "Original list: ";
     print(head);
 
-    // Test out your linked list code
+    // llpivot() test:
+    Node* smaller = NULL;
+    Node* larger = NULL;
 
+    // Make a value the function checks for
+    int val = 3;
+    cout << "Pivot value: 3" << endl;
+    llpivot(head, smaller, larger, val);
 
+    // Now check the lists
+    cout << "Smaller list: ";
+    print(smaller);
+    cout << "Larger list: ";
+    print(larger);
 
+    // llfilter() test
+    // We have to create a comparator for the second function
+    struct neg  {
+      bool operator() (int val) {
+        if (val < 0)  {
+          return true;
+        }
+        return false;
+      }
+    };
+
+    // Test the function with the comparator struct
+    neg negative;
+    Node* test = llfilter(smaller, negative);
+
+    // Now check the list
+    print(test);
+
+    // Use deallocation functions
+    dealloc(test);
+    dealloc(larger);
     
     return 0;
-
 }
