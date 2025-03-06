@@ -23,6 +23,14 @@ class Circuit
     std::vector<Gate*> m_gates;
     std::vector<Wire*> m_wires;
 		// we need to add the m_pq data member. It should be a min-heap of Event*;
+    
+    /* Add the m_pq data member to the Circuit class. 
+    This data member must use your Heap class from the previous part of the 
+    assignment and it must use the EventLess functor.
+    */
+    // Heap data structure takes two arguments, type of values used in the heap
+    // and a functor
+    Heap<Event*, EventLess> m_pq;
         
 };
 

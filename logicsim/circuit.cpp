@@ -110,6 +110,17 @@ bool Circuit::parse(const char* fname)
                     m_gates.push_back(new Or2Gate(m_wires[stoi(s_in1)], m_wires[stoi(s_in2)], m_wires[stoi(s_output)]));
                 }
                 //Add code here to support the NOT gate type
+                /* Update the parsing code in Circuit::parse() to support adding NotGate gates.*/
+                // Recognize NOT gate and instantiate a class
+                if (s_type == "NOT")    {
+                    // Only need to read input (one) and output wires
+                    std::string s_in1;
+                    getline(ss, s_in1, ',');
+                    std::string s_output;
+                    getline(ss, s_output, ',');
+                    // Then make a new NotGate and add it to the vector of Gate pointers
+                    m_gates.push_back(new NotGate(m_wires[stoi(s_in1)], m_wires[stoi(s_output)]));
+                }
             }
         }
         if(line == "INJECT")
